@@ -22,6 +22,13 @@ export class PrestamoService {
     return this.apiService.get<Prestamo>(`${this.endpoint}/${id_biblioteca}/prestamo/${id_prestamo}`);
   }
 
+  getPrestamoByFechaPrestamo(idBiblioteca: string, Fecha_prestamo: Date): Observable<Prestamo> {
+      return this.apiService.get<Prestamo>(`${this.endpoint}/${idBiblioteca}/reserva/${Fecha_prestamo}`);
+    }
+
+  getPrestamoByFechaEntrega(idBiblioteca: string, Fecha_entrega: Date): Observable<Prestamo> {
+      return this.apiService.get<Prestamo>(`${this.endpoint}/${idBiblioteca}/reserva/${Fecha_entrega}`);
+    }
 
   createPrestamo(prestamo: CreatePrestamoRequest): Observable<Prestamo> {
     return this.apiService.post<Prestamo>(this.endpoint, prestamo);
