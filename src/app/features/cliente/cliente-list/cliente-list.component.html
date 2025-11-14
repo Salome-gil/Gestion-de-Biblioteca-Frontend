@@ -1,0 +1,86 @@
+<p-toolbar styleClass="mb-6">
+  <ng-template #start>
+    <p-button label="Nuevo" icon="pi pi-plus" severity="secondary" class="mr-2" (onClick)="openNew()" />
+    <p-button label="Eliminar" icon="pi pi-trash" outlined severity="secondary"
+      [disabled]="!selectedClientes || !selectedClientes.length"
+      (onClick)="deleteSelectedClientes()" />
+  </ng-template>
+
+</p-toolbar>
+
+<p-table #dt [value]="clientes()" [(selection)]="selectedClientes" dataKey="codigo"
+  [paginator]="true" [rows]="10" [loading]="loading" [rowHover]="true"
+  [globalFilterFields]="['nombre','tipo_cliente','detalle_tipo','vetado','codigo']" [rowsPerPageOptions]="[10,20,30]"
+  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} clientes">
+
+  <ng-template #caption>
+    <div class="flex items-center justify-between">
+      <h5 class="m-0">Gestión de Clientes</h5>
+      <p-iconfield>
+        <p-inputicon styleClass="pi pi-search" />
+        <input pInputText type="text" (input)="onGlobalFilter($event)" placeholder="Buscar..." />
+      </p-iconfield>
+    </div>
+  </ng-template>
+
+  <ng-template #header>
+    <tr>
+      <th style="width:3rem"><p-tableHeaderCheckbox /></th>
+      <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre" /></th>
+      <th pSortableColumn="tipo_cliente">Tipo <p-sortIcon field="tipo_cliente" /></th>
+      <th>Detalle</th>
+      <th>Vetado</th>
+      <th>Fecha de creación</th>
+      <th style="width:8rem"></th>
+    </tr>
+  </ng-template>
+
+  <ng-template #body let-cliente>
+    <tr>
+      <td><p-tableCheckbox [value]="cliente" /></td>
+      <td>{{ cliente.nombre }}</td>
+      <td>{{ cliente.tipo_cliente }}</td>
+      <td>{{ cliente.detalle_tipo || '-' }}</td>
+      <td>{{ cliente.vetado ? 'Sí' : 'No' }}</td>
+      <td>{{ cliente.fecha_creacion | date:'short' }}</td>
+      <td>
+        <p-button icon="pi pi-pencil" class="mr-2" [outlined]="true" [rounded]="true" (click)="editCliente(cliente)" />
+        <p-button icon="pi pi-trash" severity="danger" [outlined]="true" [rounded]="true" (click)="deleteCliente(cliente)" />
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-dialog [(visible)]="clienteDialog" [style]="{width: '500px'}" header="Detalles del Cliente" [modal]="true">
+  <ng-template #content>
+    <div class="flex flex-col gap-4">
+      <div>
+        <label for="nombre" class="block font-bold mb-2">Nombre</label>
+        <input id="nombre" type="text" pInputText [(ngModel)]="cliente.nombre" required autofocus fluid />
+        <small class="text-red-500" *ngIf="submitted && !cliente.nombre">El nombre es obligatorio.</small>
+      </div>
+
+      <div>
+        <label for="tipo_cliente" class="block font-bold mb-2">Tipo de Cliente</label>
+        <input id="tipo_cliente" type="text" pInputText [(ngModel)]="cliente.tipo_cliente" required />
+      </div>
+
+      <div>
+        <label for="detalle_tipo" class="block font-bold mb-2">Detalle del Tipo</label>
+        <input id="detalle_tipo" type="text" pInputText [(ngModel)]="cliente.detalle_tipo" />
+      </div>
+
+      <div class="flex items-center gap-2">
+        <p-checkbox [(ngModel)]="cliente.vetado" binary="true" inputId="vetado"></p-checkbox>
+        <label for="vetado">Cliente vetado</label>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #footer>
+    <p-button label="Cancelar" icon="pi pi-times" text (click)="hideDialog()" />
+    <p-button label="Guardar" icon="pi pi-check" (click)="saveCliente()" />
+  </ng-template>
+</p-dialog>
+
+<p-confirmdialog [style]="{ width: '450px' }" />
