@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CreateSancionRequest, Sancion, SancionFilters, UpdateSancionRequest } from '../../shared/models/Sancion.model';
-import { PaginationParams } from '../models/api-response.model';
+import { PaginationParams } from '../models/api-response.models';
 import { ApiService } from './api.service';
 
 @Injectable({

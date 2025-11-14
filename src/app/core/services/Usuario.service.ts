@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ChangePasswordRequest, CreateUsuarioRequest, UpdateUsuarioRequest, Usuario, UsuarioFilters } from '../../shared/models/Usuario.model';
-import { PaginationParams } from '../models/api-response.model';
+import { PaginationParams } from '../models/api-response.models';
 import { ApiService } from './api.service';
 
 @Injectable({

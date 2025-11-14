@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Categoria, CategoriaFilters, CreateCategoriaRequest, UpdateCategoriaRequest } from '../../shared/models/Categoria.model';
-import { PaginationParams } from '../models/api-response.model';
+import { PaginationParams } from '../models/api-response.models';
 import { ApiService } from './api.service';
 
 @Injectable({

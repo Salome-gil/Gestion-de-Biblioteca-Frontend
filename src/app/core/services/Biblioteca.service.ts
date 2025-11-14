@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Biblioteca, BibliotecaFilters, CreateBibliotecaRequest, UpdateBibliotecaRequest } from '../../shared/models/Biblioteca.model';
-import { PaginationParams } from '../models/api-response.model';
+import { PaginationParams } from '../models/api-response.models';
 import { ApiService } from './api.service';
 
 @Injectable({
