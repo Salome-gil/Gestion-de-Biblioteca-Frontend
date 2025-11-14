@@ -1,0 +1,95 @@
+<p-toolbar styleClass="mb-6">
+  <ng-template #start>
+    <p-button label="Nuevo" icon="pi pi-plus" severity="secondary" class="mr-2" (onClick)="openNew()" />
+    <p-button label="Eliminar" icon="pi pi-trash" outlined severity="secondary"
+      [disabled]="!selectedPrestamos || !selectedPrestamos.length"
+      (onClick)="deleteSelectedPrestamos()" />
+  </ng-template>
+</p-toolbar>
+
+<p-table #dt [value]="prestamos()" [(selection)]="selectedPrestamos" dataKey="id"
+  [paginator]="true" [rows]="10" [loading]="loading" [rowHover]="true"
+  [globalFilterFields]="['id_biblioteca','cod_cliente','id_material','fecha_prestamo','fecha_entrega','id']"
+  [rowsPerPageOptions]="[10,20,30]"
+  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} préstamos">
+
+  <ng-template #caption>
+    <div class="flex items-center justify-between">
+      <h5 class="m-0">Gestión de Préstamos</h5>
+      <p-iconfield>
+        <p-inputicon styleClass="pi pi-search" />
+        <input pInputText type="text" (input)="onGlobalFilter($event)" placeholder="Buscar..." />
+      </p-iconfield>
+    </div>
+  </ng-template>
+
+  <ng-template #header>
+    <tr>
+      <th style="width:3rem"><p-tableHeaderCheckbox /></th>
+      <th pSortableColumn="id_biblioteca">ID de la biblioteca <p-sortIcon field="id_biblioteca" /></th>
+      <th pSortableColumn="cod_cliente">Cliente <p-sortIcon field="cod_cliente" /></th>
+      <th pSortableColumn="id_material">Material <p-sortIcon field="id_material" /></th>
+      <th>Fecha préstamo</th>
+      <th>Fecha entrega</th>
+      <th>Fecha creación</th>
+      <th style="width:8rem"></th>
+    </tr>
+  </ng-template>
+
+  <ng-template #body let-p>
+    <tr>
+      <td><p-tableCheckbox [value]="p" /></td>
+      <td>{{ p.id_biblioteca}}</td>
+      <td>{{ p.cliente?.nombre || p.cod_cliente }}</td>
+      <td>{{ p.material?.titulo || p.id_material }}</td>
+      <td>{{ p.fecha_prestamo | date:'shortDate' }}</td>
+      <td>{{ p.fecha_entrega | date:'shortDate' }}</td>
+      <td>{{ p.fecha_creacion | date:'short' }}</td>
+      <td>
+        <p-button icon="pi pi-pencil" class="mr-2" [outlined]="true" [rounded]="true" (click)="editPrestamo(p)" />
+        <p-button icon="pi pi-trash" severity="danger" [outlined]="true" [rounded]="true" (click)="deletePrestamo(p)" />
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-dialog [(visible)]="prestamoDialog" [style]="{width: '500px'}" header="Detalles del Préstamo" [modal]="true">
+  <ng-template #content>
+    <div class="flex flex-col gap-4">
+       <div>
+        <label for="id_biblioteca" class="block font-bold mb-2">ID de la biblioteca</label>
+        <input id="id_biblioteca" type="text" pInputText [(ngModel)]="prestamo.id_biblioteca" required autofocus fluid />
+        <small class="text-red-500" *ngIf="submitted && !prestamo.id_biblioteca">El código es obligatorio.</small>
+      </div>
+
+      <div>
+        <label for="cod_cliente" class="block font-bold mb-2">Código del Cliente</label>
+        <input id="cod_cliente" type="text" pInputText [(ngModel)]="prestamo.cod_cliente" required autofocus fluid />
+        <small class="text-red-500" *ngIf="submitted && !prestamo.cod_cliente">El código es obligatorio.</small>
+      </div>
+
+      <div>
+        <label for="id_material" class="block font-bold mb-2">ID del Material</label>
+        <input id="id_material" type="text" pInputText [(ngModel)]="prestamo.id_material" required fluid />
+        <small class="text-red-500" *ngIf="submitted && !prestamo.id_material">El material es obligatorio.</small>
+      </div>
+
+      <div>
+        <label for="fecha_prestamo" class="block font-bold mb-2">Fecha de Préstamo</label>
+        <p-datepicker id="fecha_prestamo" [(ngModel)]="prestamo.fecha_prestamo" showIcon="true" dateFormat="yy-mm-dd" />
+      </div>
+
+      <div>
+        <label for="fecha_entrega" class="block font-bold mb-2">Fecha de Entrega</label>
+        <p-datepicker id="fecha_entrega" [(ngModel)]="prestamo.fecha_entrega" showIcon="true" dateFormat="yy-mm-dd" />
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #footer>
+    <p-button label="Cancelar" icon="pi pi-times" text (click)="hideDialog()" />
+    <p-button label="Guardar" icon="pi pi-check" (click)="savePrestamo()" />
+  </ng-template>
+</p-dialog>
+
+<p-confirmdialog [style]="{ width: '450px' }" />

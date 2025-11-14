@@ -1,0 +1,94 @@
+<p-toolbar styleClass="mb-6">
+  <ng-template #start>
+    <p-button label="Nuevo" icon="pi pi-plus" severity="secondary" class="mr-2" (onClick)="openNew()" />
+    <p-button label="Eliminar" icon="pi pi-trash" outlined severity="secondary"
+      [disabled]="!selectedReservas || !selectedReservas.length"
+      (onClick)="deleteSelectedReservas()" />
+  </ng-template>
+</p-toolbar>
+
+<p-table #dt [value]="reservas()" [(selection)]="selectedReservas" dataKey="id_reserva"
+  [paginator]="true" [rows]="10" [loading]="loading" [rowHover]="true"
+  [globalFilterFields]="['id_biblioteca','cod_cliente','id_material','fecha_reserva','estado','id_reserva']"
+  [rowsPerPageOptions]="[10,20,30]"
+  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} reservas">
+
+  <ng-template #caption>
+    <div class="flex items-center justify-between">
+      <h5 class="m-0">Gestión de Reservas</h5>
+      <p-iconfield>
+        <p-inputicon styleClass="pi pi-search" />
+        <input pInputText type="text" (input)="onGlobalFilter($event)" placeholder="Buscar..." />
+      </p-iconfield>
+    </div>
+  </ng-template>
+
+  <ng-template #header>
+    <tr>
+      <th style="width:3rem"><p-tableHeaderCheckbox /></th>
+      <th pSortableColumn="id_biblioteca">Biblioteca <p-sortIcon field="id_biblioteca" /></th>
+      <th pSortableColumn="cod_cliente">Cliente <p-sortIcon field="cod_cliente" /></th>
+      <th pSortableColumn="id_material">Material <p-sortIcon field="id_material" /></th>
+      <th pSortableColumn="fecha_reserva">Fecha Reserva <p-sortIcon field="fecha_reserva" /></th>
+      <th pSortableColumn="estado">Estado <p-sortIcon field="estado" /></th>
+      <th>Fecha de creación</th>
+      <th style="width:8rem"></th>
+    </tr>
+  </ng-template>
+
+  <ng-template #body let-r>
+    <tr>
+      <td><p-tableCheckbox [value]="r" /></td>
+       <td>{{ r.biblioteca?.nombre || r.id_biblioteca }}</td>
+      <td>{{ r.cliente?.nombre || r.cod_cliente }}</td>
+      <td>{{ r.material?.titulo || r.id_material }}</td>
+      <td>{{ r.fecha_reserva | date:'shortDate' }}</td>
+      <td>{{ r.estado }}</td>
+      <td>{{ r.fecha_creacion | date:'short' }}</td>
+      <td>
+        <p-button icon="pi pi-pencil" class="mr-2" [outlined]="true" [rounded]="true" (click)="editReserva(r)" />
+        <p-button icon="pi pi-trash" severity="danger" [outlined]="true" [rounded]="true" (click)="deleteReserva(r)" />
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-dialog [(visible)]="reservaDialog" [style]="{width: '500px'}" header="Detalles de Reserva" [modal]="true">
+  <ng-template #content>
+    <div class="flex flex-col gap-4">
+      <div>
+        <label for="id_biblioteca" class="block font-bold mb-2">ID de la biblioteca</label>
+        <input id="id_biblioteca" type="text" pInputText [(ngModel)]="reserva.id_biblioteca" required autofocus fluid />
+        <small class="text-red-500" *ngIf="submitted && !reserva.id_biblioteca">Campo obligatorio.</small>
+      </div>
+      <div>
+        <label for="cod_cliente" class="block font-bold mb-2">Código del Cliente</label>
+        <input id="cod_cliente" type="text" pInputText [(ngModel)]="reserva.cod_cliente" required autofocus fluid />
+        <small class="text-red-500" *ngIf="submitted && !reserva.cod_cliente">Campo obligatorio.</small>
+      </div>
+
+      <div>
+        <label for="id_material" class="block font-bold mb-2">ID del Material</label>
+        <input id="id_material" type="text" pInputText [(ngModel)]="reserva.id_material" required fluid />
+        <small class="text-red-500" *ngIf="submitted && !reserva.id_material">Campo obligatorio.</small>
+      </div>
+
+      <div>
+        <label for="fecha_reserva" class="block font-bold mb-2">Fecha de Reserva</label>
+        <p-datepicker id="fecha_reserva" [(ngModel)]="reserva.fecha_reserva" showIcon="true" dateFormat="yy-mm-dd" />
+      </div>
+
+      <div>
+        <label for="estado" class="block font-bold mb-2">Estado</label>
+        <input id="estado" type="text" pInputText [(ngModel)]="reserva.estado" required fluid />
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #footer>
+    <p-button label="Cancelar" icon="pi pi-times" text (click)="hideDialog()" />
+    <p-button label="Guardar" icon="pi pi-check" (click)="saveReserva()" />
+  </ng-template>
+</p-dialog>
+
+<p-confirmdialog [style]="{ width: '450px' }" />
