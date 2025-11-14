@@ -22,6 +22,18 @@ export class SancionService {
     return this.apiService.get<Sancion>(`${this.endpoint}/${id_biblioteca}/sancion/${id_sancion}`);
   }
 
+  getSancionByFecha(id_biblioteca: string, Fecha_sancion: Date): Observable<Sancion> {
+      return this.apiService.get<Sancion>(`${this.endpoint}/${id_biblioteca}/sancion/${Fecha_sancion}`);
+  }
+
+  getSancionByMonto(id_biblioteca: string, Monto: number): Observable<Sancion> {
+    return this.apiService.get<Sancion>(`${this.endpoint}/${id_biblioteca}/sancion/${Monto}`);
+  }
+
+  getSancionByMotivo(id_biblioteca: string, Motivo: string): Observable<Sancion> {
+    return this.apiService.get<Sancion>(`${this.endpoint}/${id_biblioteca}/sancion/${Motivo}`);
+  }
+
   
   createSancion(sancion: CreateSancionRequest): Observable<Sancion> {
     return this.apiService.post<Sancion>(this.endpoint, sancion);

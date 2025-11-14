@@ -22,6 +22,10 @@ export class ReservaService {
     return this.apiService.get<Reserva>(`${this.endpoint}/${idBiblioteca}/reserva/${idReserva}`);
   }
 
+  getReservaByFecha(idBiblioteca: string, Fecha_reserva: Date): Observable<Reserva> {
+    return this.apiService.get<Reserva>(`${this.endpoint}/${idBiblioteca}/reserva/${Fecha_reserva}`);
+  }
+
   
   createReserva(reserva: CreateReservaRequest): Observable<Reserva> {
     return this.apiService.post<Reserva>(this.endpoint, reserva);
