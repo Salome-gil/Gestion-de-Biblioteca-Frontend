@@ -1,0 +1,95 @@
+<p-toolbar styleClass="mb-6">
+  <ng-template #start>
+    <p-button label="Nueva" icon="pi pi-plus" severity="secondary" class="mr-2" (onClick)="openNew()" />
+    <p-button label="Eliminar" icon="pi pi-trash" outlined severity="secondary"
+      [disabled]="!selectedSanciones || !selectedSanciones.length"
+      (onClick)="deleteSelectedSanciones()" />
+  </ng-template>
+</p-toolbar>
+
+<p-table #dt [value]="sanciones()" [(selection)]="selectedSanciones" dataKey="id_sancion"
+  [paginator]="true" [rows]="10" [loading]="loading" [rowHover]="true"
+  [globalFilterFields]="['id_biblioteca','cod_cliente','motivo','monto','fecha_sancion','id_sancion']"
+  [rowsPerPageOptions]="[10,20,30]"
+  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} sanciones">
+
+  <ng-template #caption>
+    <div class="flex items-center justify-between">
+      <h5 class="m-0">Gestión de Sanciones</h5>
+      <p-iconfield>
+        <p-inputicon styleClass="pi pi-search" />
+        <input pInputText type="text" (input)="onGlobalFilter($event)" placeholder="Buscar..." />
+      </p-iconfield>
+    </div>
+  </ng-template>
+
+  <ng-template #header>
+    <tr>
+      <th style="width:3rem"><p-tableHeaderCheckbox /></th>
+      <th pSortableColumn="id_biblioteca">ID de la biblioteca <p-sortIcon field="id_biblioteca" /></th>
+      <th pSortableColumn="cod_cliente">Cliente <p-sortIcon field="cod_cliente" /></th>
+      <th pSortableColumn="motivo">Motivo <p-sortIcon field="motivo" /></th>
+      <th pSortableColumn="monto">Monto <p-sortIcon field="monto" /></th>
+      <th pSortableColumn="fecha_sancion">Fecha Sanción <p-sortIcon field="fecha_sancion" /></th>
+      <th>Fecha creación</th>
+      <th style="width:8rem"></th>
+    </tr>
+  </ng-template>
+
+  <ng-template #body let-s>
+    <tr>
+      <td><p-tableCheckbox [value]="s" /></td>
+      <td>{{ s.id_biblioteca }}</td>
+      <td>{{ s.cliente?.nombre || s.cod_cliente }}</td>
+      <td>{{ s.motivo }}</td>
+      <td>{{ s.monto | currency:'USD':'symbol' }}</td>
+      <td>{{ s.fecha_sancion | date:'shortDate' }}</td>
+      <td>{{ s.fecha_creacion | date:'short' }}</td>
+      <td>
+        <p-button icon="pi pi-pencil" class="mr-2" [outlined]="true" [rounded]="true" (click)="editSancion(s)" />
+        <p-button icon="pi pi-trash" severity="danger" [outlined]="true" [rounded]="true" (click)="deleteSancion(s)" />
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-dialog [(visible)]="sancionDialog" [style]="{width: '500px'}" header="Detalles de Sanción" [modal]="true">
+  <ng-template #content>
+    <div class="flex flex-col gap-4">
+      <div>
+        <label for="id_biblioteca" class="block font-bold mb-2">ID de la Biblioteca</label>
+        <input id="id_biblioteca" type="text" pInputText [(ngModel)]="sancion.id_biblioteca" required autofocus fluid />
+        <small class="text-red-500" *ngIf="submitted && !sancion.id_biblioteca">Campo obligatorio.</small>
+      </div>
+
+      <div>
+        <label for="cod_cliente" class="block font-bold mb-2">Código del Cliente</label>
+        <input id="cod_cliente" type="text" pInputText [(ngModel)]="sancion.cod_cliente" required autofocus fluid />
+        <small class="text-red-500" *ngIf="submitted && !sancion.cod_cliente">Campo obligatorio.</small>
+      </div>
+
+      <div>
+        <label for="motivo" class="block font-bold mb-2">Motivo</label>
+        <input id="motivo" type="text" pInputText [(ngModel)]="sancion.motivo" required fluid />
+        <small class="text-red-500" *ngIf="submitted && !sancion.motivo">Campo obligatorio.</small>
+      </div>
+
+      <div>
+        <label for="monto" class="block font-bold mb-2">Monto</label>
+        <input id="monto" type="number" pInputText [(ngModel)]="sancion.monto" required fluid />
+      </div>
+
+      <div>
+        <label for="fecha_sancion" class="block font-bold mb-2">Fecha de Sanción</label>
+        <p-datepicker id="fecha_sancion" [(ngModel)]="sancion.fecha_sancion" showIcon="true" dateFormat="yy-mm-dd" />
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #footer>
+    <p-button label="Cancelar" icon="pi pi-times" text (click)="hideDialog()" />
+    <p-button label="Guardar" icon="pi pi-check" (click)="saveSancion()" />
+  </ng-template>
+</p-dialog>
+
+<p-confirmdialog [style]="{ width: '450px' }" />
