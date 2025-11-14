@@ -29,9 +29,15 @@
                             {
                                 "glob": "**/*",
                                 "input": "public"
+                            },
+                            {
+                                "glob": "**/*",
+                                "input": "src/assets",
+                                "output": "/assets"
                             }
                         ],
                         "styles": [
+                            "src/assets/tailwind.css",
                             "src/assets/styles.scss"
                         ],
                         "scripts": []
@@ -76,6 +82,11 @@
                             {
                                 "glob": "**/*",
                                 "input": "public"
+                            },
+                            {
+                                "glob": "**/*",
+                                "input": "src/assets",
+                                "output": "/assets"
                             }
                         ],
                         "styles": [

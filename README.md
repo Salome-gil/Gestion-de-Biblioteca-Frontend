@@ -1,59 +1,110 @@
-# Sakai19
+# Gestión de Biblioteca - Frontend (Angular)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.5.
+Este proyecto es una aplicación web desarrollada con **Angular**, que permite la gestión de materiales bibliográficos.  
+Incluye autenticación para **administradores** y **consumidores** (usuarios regulares).
 
-## Development server
+---
 
-To start a local development server, run:
+## Clonar y ejecutar el proyecto
+
+### 1️Clonar el repositorio
+```bash
+git clone https://github.com/Salome-gil/Gestion-de-Biblioteca-Frontend.git
+```
+### 2️⃣ Entrar en la carpeta del proyecto
+```bash
+cd Gestion-de-Biblioteca-Frontend
+```
+
+---
+
+### 3️⃣ Instalar dependencias
+Asegúrate de tener **Node.js** (versión 18 o superior) y **npm** instalados.
+
+```bash
+npm install
+```
+
+---
+
+### 4️⃣ Ejecutar el proyecto
+Para iniciar el servidor de desarrollo:
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+o, si tu Angular CLI está instalada de forma global:
 
 ```bash
-ng generate component component-name
+npm start
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Luego, abre tu navegador en:
+```
+http://localhost:4200
+```
 
+---
+
+## Credenciales de acceso
+
+### Administrador
+- **Usuario:** `admin`  
+- **Contraseña:** `admin123`
+
+> Con esta cuenta puedes acceder al panel de administración, gestionar materiales bibliográficos y usuarios.
+
+---
+
+### Consumidor (usuario regular)
+Si deseas ingresar como **consumidor**, primero debes **crear una cuenta**:
+1. En la pantalla de inicio de sesión, selecciona la opción **"Registrarse"** o **"Crear cuenta"**.  
+2. Completa el formulario de registro.  
+3. Inicia sesión con las credenciales creadas.
+
+---
+
+## Estructura básica del proyecto
+
+```
+Gestion-de-Biblioteca-Frontend/
+│
+├── src/
+│   ├── app/
+│   │   ├── features/           # Módulos funcionales (ej. materiales, usuarios, préstamos, etc.)
+│   │   ├── core/               # Servicios, interceptores, guardias
+│   │   ├── shared/             # Componentes y recursos compartidos
+│   │   └── app-routing.module.ts
+│   └── assets/                 # Imágenes, estilos globales, etc.
+│
+├── angular.json
+├── package.json
+└── README.md
+```
+
+---
+
+## Requisitos previos
+- **Node.js** v18 o superior  
+- **Angular CLI** v17 o superior  
+- **npm** (instalado junto con Node)
+
+Para verificar versiones:
 ```bash
-ng generate --help
+node -v
+npm -v
+ng version
 ```
 
-## Building
+---
 
-To build the project run:
+### Desarrollado por
+- Maria Fernanda Palacio
+- Salomé Gil
 
-```bash
-ng build
-```
+---
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Licencia
+Proyecto desarrollado con fines académicos o demostrativos.  
+Puedes modificar y distribuir libremente con atribución.
