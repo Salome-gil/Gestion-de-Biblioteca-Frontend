@@ -6,7 +6,7 @@ import {
   MaterialFilters,
   UpdateMaterialRequest
 } from '../../shared/models/Material_Bibliografico.model';
-import { PaginationParams } from '../models/api-response.model';
+import { PaginationParams } from '../models/api-response.models';
 import { ApiService } from './api.service';
 
 @Injectable({
