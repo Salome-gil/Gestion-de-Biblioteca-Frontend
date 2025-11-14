@@ -9,7 +9,7 @@
 
 <p-table #dt [value]="sedes()" [(selection)]="selectedSedes" dataKey="id_sede"
   [paginator]="true" [rows]="10" [loading]="loading" [rowHover]="true"
-  [globalFilterFields]="['nombre','direccion']"
+  [globalFilterFields]="['nombre','direccion','id_sede']"
   [rowsPerPageOptions]="[10,20,30]"
   currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} sedes">
 
