@@ -9,7 +9,7 @@
 
 <p-table #dt [value]="sanciones()" [(selection)]="selectedSanciones" dataKey="id_sancion"
   [paginator]="true" [rows]="10" [loading]="loading" [rowHover]="true"
-  [globalFilterFields]="['id_biblioteca','cod_cliente','motivo','monto']"
+  [globalFilterFields]="['id_biblioteca','cod_cliente','motivo','monto','fecha_sancion','id_sancion']"
   [rowsPerPageOptions]="[10,20,30]"
   currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} sanciones">
 

@@ -9,7 +9,7 @@
 
 <p-table #dt [value]="prestamos()" [(selection)]="selectedPrestamos" dataKey="id"
   [paginator]="true" [rows]="10" [loading]="loading" [rowHover]="true"
-  [globalFilterFields]="['id_biblioteca','cod_cliente','id_material','fecha_prestamo','fecha_entrega']"
+  [globalFilterFields]="['id_biblioteca','cod_cliente','id_material','fecha_prestamo','fecha_entrega','id']"
   [rowsPerPageOptions]="[10,20,30]"
   currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} préstamos">
 

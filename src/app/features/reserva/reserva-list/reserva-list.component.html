@@ -9,7 +9,7 @@
 
 <p-table #dt [value]="reservas()" [(selection)]="selectedReservas" dataKey="id_reserva"
   [paginator]="true" [rows]="10" [loading]="loading" [rowHover]="true"
-  [globalFilterFields]="['id_biblioteca','cod_cliente','id_material','fecha_reserva','estado']"
+  [globalFilterFields]="['id_biblioteca','cod_cliente','id_material','fecha_reserva','estado','id_reserva']"
   [rowsPerPageOptions]="[10,20,30]"
   currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} reservas">
 
