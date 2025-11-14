@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/enviroment';
-import { PaginationParams } from '../models/api-response.model';
+import { PaginationParams } from '../models/api-response.models';
 
 @Injectable({
   providedIn: 'root'
