@@ -1,0 +1,72 @@
+<p-toolbar styleClass="mb-6">
+  <ng-template #start>
+    <p-button label="Nuevo" icon="pi pi-plus" severity="secondary" class="mr-2" (onClick)="openNew()" />
+    <p-button label="Eliminar" icon="pi pi-trash" outlined severity="secondary"
+      [disabled]="!selectedBibliotecas || !selectedBibliotecas.length"
+      (onClick)="deleteSelectedBibliotecas()" />
+  </ng-template>
+
+</p-toolbar>
+
+<p-table #dt [value]="bibliotecas()" [(selection)]="selectedBibliotecas" dataKey="id_biblioteca"
+  [paginator]="true" [rows]="10" [loading]="loading" [rowHover]="true"
+  [globalFilterFields]="['nombre','id_sede','id_biblioteca']" [rowsPerPageOptions]="[10,20,30]"
+  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} bibliotecas">
+
+  <ng-template #caption>
+    <div class="flex items-center justify-between">
+      <h5 class="m-0">Gestión de Bibliotecas</h5>
+      <p-iconfield>
+        <p-inputicon styleClass="pi pi-search" />
+        <input pInputText type="text" (input)="onGlobalFilter($event)" placeholder="Buscar..." />
+      </p-iconfield>
+    </div>
+  </ng-template>
+
+  <ng-template #header>
+    <tr>
+      <th style="width:3rem"><p-tableHeaderCheckbox /></th>
+      <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre" /></th>
+      <th>Sede</th>
+      <th>Fecha de creación</th>
+      <th style="width:8rem"></th>
+    </tr>
+  </ng-template>
+
+  <ng-template #body let-bib>
+    <tr>
+      <td><p-tableCheckbox [value]="bib" /></td>
+      <td>{{ bib.nombre }}</td>
+      <td>{{ bib.sede?.nombre || bib.id_sede }}</td>
+      <td>{{ bib.fecha_creacion | date:'short' }}</td>
+      <td>
+        <p-button icon="pi pi-pencil" class="mr-2" [outlined]="true" [rounded]="true" (click)="editBiblioteca(bib)" />
+        <p-button icon="pi pi-trash" severity="danger" [outlined]="true" [rounded]="true" (click)="deleteBiblioteca(bib)" />
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-dialog [(visible)]="bibliotecaDialog" [style]="{width: '450px'}" header="Detalles de Biblioteca" [modal]="true">
+  <ng-template #content>
+    <div class="flex flex-col gap-4">
+      <div>
+        <label for="nombre" class="block font-bold mb-2">Nombre</label>
+        <input id="nombre" type="text" pInputText [(ngModel)]="biblioteca.nombre" required autofocus fluid />
+        <small class="text-red-500" *ngIf="submitted && !biblioteca.nombre">El nombre es obligatorio.</small>
+      </div>
+      <div>
+        <label for="sede" class="block font-bold mb-2">ID de sede</label>
+        <input id="sede" type="text" pInputText [(ngModel)]="biblioteca.id_sede" required fluid />
+        <small class="text-gray-400">Si tienes el selector de sedes, aquí podrás reemplazar este campo por un dropdown.</small>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #footer>
+    <p-button label="Cancelar" icon="pi pi-times" text (click)="hideDialog()" />
+    <p-button label="Guardar" icon="pi pi-check" (click)="saveBiblioteca()" />
+  </ng-template>
+</p-dialog>
+
+<p-confirmdialog [style]="{ width: '450px' }" />

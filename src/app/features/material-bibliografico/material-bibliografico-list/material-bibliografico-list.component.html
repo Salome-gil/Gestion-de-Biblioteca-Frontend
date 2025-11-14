@@ -1,0 +1,104 @@
+<p-toolbar styleClass="mb-6">
+  <ng-template #start>
+    <p-button label="Nuevo" icon="pi pi-plus" severity="secondary" class="mr-2" (onClick)="openNew()" />
+    <p-button label="Eliminar" icon="pi pi-trash" outlined severity="secondary"
+      [disabled]="!selectedMateriales || !selectedMateriales.length"
+      (onClick)="deleteSelectedMateriales()" />
+  </ng-template>
+</p-toolbar>
+
+<p-table #dt [value]="materiales()" [(selection)]="selectedMateriales" dataKey="id_material"
+  [paginator]="true" [rows]="10" [loading]="loading" [rowHover]="true"
+  [globalFilterFields]="['id_sede','titulo','autor','estado','id_categoria', 'id_material']" [rowsPerPageOptions]="[10,20,30]"
+  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} materiales">
+
+  <ng-template #caption>
+    <div class="flex items-center justify-between">
+      <h5 class="m-0">Gestión de Materiales Bibliográficos</h5>
+      <p-iconfield>
+        <p-inputicon styleClass="pi pi-search" />
+        <input pInputText type="text" (input)="onGlobalFilter($event)" placeholder="Buscar..." />
+      </p-iconfield>
+    </div>
+  </ng-template>
+
+  <ng-template #header>
+    <tr>
+      <th style="width:3rem"><p-tableHeaderCheckbox /></th>
+      <th>Sede</th>
+      <th pSortableColumn="titulo">Título <p-sortIcon field="titulo" /></th>
+      <th pSortableColumn="autor">Autor <p-sortIcon field="autor" /></th>
+      <th>Categoría</th>
+      <th>Estado</th>
+      <th>Fecha creación</th>
+      <th style="width:8rem"></th>
+    </tr>
+  </ng-template>
+
+  <ng-template #body let-mat>
+    <tr>
+      <td><p-tableCheckbox [value]="mat" /></td>
+      <td>{{ mat.sede?.nombre || mat.id_sede }}</td>
+      <td>{{ mat.titulo }}</td>
+      <td>{{ mat.autor }}</td>
+      <td>{{ mat.categoria?.nombre || '-' }}</td>
+      <td>{{ mat.estado }}</td>
+      <td>{{ mat.fecha_creacion | date:'short' }}</td>
+      <td>
+        <p-button icon="pi pi-pencil" class="mr-2" [outlined]="true" [rounded]="true" (click)="editMaterial(mat)" />
+        <p-button icon="pi pi-trash" severity="danger" [outlined]="true" [rounded]="true" (click)="deleteMaterial(mat)" />
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-dialog [(visible)]="materialDialog" [style]="{width: '500px'}" header="Detalles del Material" [modal]="true">
+  <ng-template #content>
+    <div class="flex flex-col gap-4">
+      <div>
+        <label for="sede" class="block font-bold mb-2">ID de sede</label>
+        <input id="sede" type="text" pInputText [(ngModel)]="material.id_sede" required autofocus fluid />
+        <small class="text-red-500" *ngIf="submitted && !material.id_sede">La sede es obligatoria.</small>
+      </div>
+
+      <div>
+        <label for="titulo" class="block font-bold mb-2">Título</label>
+        <input id="titulo" type="text" pInputText [(ngModel)]="material.titulo" required autofocus fluid />
+        <small class="text-red-500" *ngIf="submitted && !material.titulo">El título es obligatorio.</small>
+      </div>
+
+      <div>
+        <label for="autor" class="block font-bold mb-2">Autor</label>
+        <input id="autor" type="text" pInputText [(ngModel)]="material.autor" required fluid />
+        <small class="text-red-500" *ngIf="submitted && !material.autor">El autor es obligatorio.</small>
+      </div>
+
+      <div>
+        <label for="categoria" class="block font-bold mb-2">Categoría</label>
+        <select
+          [(ngModel)]="material.id_categoria"
+          class="w-full"
+        >
+          <option value="" disabled selected>Seleccionar categoría</option>
+          <option 
+            *ngFor="let categoria of categorias()" 
+            [value]="categoria.id_categoria">
+            {{ categoria.nombre }}
+          </option>
+        </select>
+      </div>
+
+      <div>
+        <label for="estado" class="block font-bold mb-2">Estado</label>
+        <input id="estado" type="text" pInputText [(ngModel)]="material.estado" />
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #footer>
+    <p-button label="Cancelar" icon="pi pi-times" text (click)="hideDialog()" />
+    <p-button label="Guardar" icon="pi pi-check" (click)="saveMaterial()" />
+  </ng-template>
+</p-dialog>
+
+<p-confirmdialog [style]="{ width: '450px' }" />
