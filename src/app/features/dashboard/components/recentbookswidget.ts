@@ -4,7 +4,7 @@ import { RippleModule } from 'primeng/ripple';
 import { TableModule } from 'primeng/table';
 import { MaterialService } from 'src/app/core/services/Material_Bibliografico.service';
 import { Material } from '../../../shared/models/Material_Bibliografico.model';
-import { PaginationParams } from 'src/app/core/models/api-response.model';
+import { PaginationParams } from 'src/app/core/models/api-response.models';
 
 @Component({
   standalone: true,

@@ -4,7 +4,7 @@ import { BibliotecaService } from 'src/app/core/services/Biblioteca.service';
 import { ClienteService } from 'src/app/core/services/Cliente.service';
 import { PrestamoService } from 'src/app/core/services/Prestamo.service';
 import { SedeService } from 'src/app/core/services/Sede.service';
-import { PaginationParams } from 'src/app/core/models/api-response.model';
+import { PaginationParams } from 'src/app/core/models/api-response.models';
 
 @Component({
   standalone: true,
