@@ -3,7 +3,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Chart, ChartConfiguration, ChartType, registerables } from 'chart.js';
 import { MaterialService } from 'src/app/core/services/Material_Bibliografico.service';
 import { Material } from 'src/app/shared/models/Material_Bibliografico.model';
-import { PaginationParams } from 'src/app/core/models/api-response.model';
+import { PaginationParams } from 'src/app/core/models/api-response.models';
 
 
 Chart.register(...registerables);

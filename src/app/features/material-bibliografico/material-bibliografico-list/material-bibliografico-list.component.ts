@@ -12,7 +12,7 @@ import { RippleModule } from 'primeng/ripple';
 import { Table, TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { PaginationParams } from 'src/app/core/models/api-response.model';
+import { PaginationParams } from 'src/app/core/models/api-response.models';
 import { CategoriaService } from '../../../core/services/Categoria.service';
 import { MaterialService } from '../../../core/services/Material_Bibliografico.service';
 import { Categoria } from '../../../shared/models/Categoria.model';
